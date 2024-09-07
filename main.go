@@ -1,13 +1,16 @@
 package main
 
-import (
-	"fmt"
+import "fmt"
 
-	"github.com/KimJayhyun/study-golang/something"
-)
+type person struct {
+	name    string
+	age     int
+	favFood []string
+}
 
 func main() {
-	fmt.Println("Hello world!")
-	something.SayHello()
-	// something.sayBye() : private function
+	favFood := []string{"a", "b"}
+	nico := person{name: "nico", age: 12, favFood: favFood}
+
+	fmt.Println(nico.name)
 }
