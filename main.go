@@ -1,16 +1,22 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
 
-type person struct {
-	name    string
-	age     int
-	favFood []string
-}
+	"github.com/kimjayhyun/study-golang/banking"
+)
 
 func main() {
-	favFood := []string{"a", "b"}
-	nico := person{name: "nico", age: 12, favFood: favFood}
+	account := banking.NewAccount("jhkim")
 
-	fmt.Println(nico.name)
+	account.Deposit(100)
+
+	err := account.Withdraw(20)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(account)
 }
