@@ -2,21 +2,24 @@ package main
 
 import (
 	"fmt"
-	"log"
 
-	"github.com/kimjayhyun/study-golang/banking"
+	"github.com/kimjayhyun/study-golang/mydict"
 )
 
 func main() {
-	account := banking.NewAccount("jhkim")
+    dictionary := mydict.Dictionary{"test": "this is just a test"}
 
-	account.Deposit(100)
+    definition, err := dictionary.Search("test")
 
-	err := account.Withdraw(20)
+    if err != nil {
+        fmt.Println(err)
+    }
 
-	if err != nil {
-		log.Fatal(err)
-	}
+    errAdd := dictionary.Add("name", "jhkim")
 
-	fmt.Println(account)
+    if errAdd != nil {
+        fmt.Println(errAdd)
+    }
+
+    fmt.Println(definition)
 }
