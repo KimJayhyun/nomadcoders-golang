@@ -2,53 +2,23 @@ package main
 
 import (
 	"fmt"
-	"net/http"
+
+	"github.com/labstack/echo"
 )
 
-type requestResult struct {
-    url string
-    status string
-}
-
 func main() {
-    results := make(map[string]string)
-    c := make(chan requestResult)
-
-	urls := []string{
-		"https://www.airbnb.com/",
-		"https://www.google.com/",
-		"https://www.amazon.com/",
-		"https://www.reddit.com/",
-		"https://www.google.com/",
-		"https://soundcloud.com/",
-		"https://www.facebook.com/",
-		"https://www.instagram.com/",
-		"https://academy.nomadcoders.co/",
-	}
-
-    for _, url := range urls {
-        go hitUrl(url, c)
-    }
-
-    for i:= 0; i < len(urls); i++ {
-        result := <- c
-        results[result.url] = result.status
-    }
-
-    for url, status := range results {
-        fmt.Println(url, status)
-    }
+	e := echo.New()
+	e.GET("/", handleHome)
+	e.POST("/scrape", handleScrape)
+	e.Logger.Fatal(e.Start(":1323"))
 }
 
-func hitUrl(url string, c chan<- requestResult) {
-    fmt.Println("checking url : ", url)
+func handleHome(c echo.Context) error {
+	return c.File("home.html")
+}
+func handleScrape(c echo.Context) error {
+	term := c.FormValue("term")
+	fmt.Println(term)
 
-    resp, err := http.Get(url)
-    status := "Ok"
-
-    if err != nil || resp.StatusCode >= 400 {
-        status = "Failed"
-    }
-
-    c <- requestResult{url: url, status: status}
+	return nil
 }
